@@ -1,0 +1,13 @@
+<repositories version="1.0">
+    <repo priority="-900" status="unofficial">
+        <name>gentoo-displaylink</name>
+        <description>Overlay to provide USB3 DisplayLink drivers for Gentoo</description>
+        <homepage>http://jesseharrisit.com</homepage>
+        <owner>
+            <email>jesse@jesseharrisit.com</email>
+            <name>Jesse Harris IT</name>
+        </owner>
+        <source type="git">git://github.com/zigford/gentoo-displaylink.git</source>
+        <feed>https://github.com/zigford/gentoo-displaylink/commits/master.atom</feed>
+    </repo>
+</repositories>
