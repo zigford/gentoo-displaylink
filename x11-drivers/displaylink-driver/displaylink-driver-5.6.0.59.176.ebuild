@@ -5,9 +5,16 @@ EAPI=7
 
 inherit eutils systemd udev
 
+AR_DATE="2022-05"
+AR_NAME="DisplayLink%20USB%20Graphics%20Software%20for%20Ubuntu5.6-EXE.zip"
+
+MY_PV=$(ver_rs 3 '-')
+MY_P="${PN}-${MY_PV}"
+S="${WORKDIR}/${MY_P}"
+
 DESCRIPTION="DisplayLink USB Graphics Software"
 HOMEPAGE="http://www.displaylink.com/downloads/ubuntu"
-SRC_URI="${P}.zip"
+SRC_URI="https://www.synaptics.com/sites/default/files/exe_files/${AR_DATE}/${AR_NAME} -> ${P}.zip"
 
 LICENSE="DisplayLink"
 SLOT="0"
@@ -15,24 +22,24 @@ KEYWORDS="~x86 ~amd64"
 IUSE="systemd"
 
 QA_PREBUILT="/opt/displaylink/DisplayLinkManager"
-RESTRICT="fetch"
+#RESTRICT="fetch"
 
 DEPEND="app-admin/chrpath"
 RDEPEND=">=sys-devel/gcc-4.8.3
-	=x11-drivers/evdi-1.6*
+	=x11-drivers/evdi-1.12*
 	virtual/libusb:1
 	|| ( x11-drivers/xf86-video-modesetting >=x11-base/xorg-server-1.17.0 )
 	!systemd? ( sys-power/pm-utils )"
 
-pkg_nofetch() {
-	einfo "Please download DisplayLink USB Graphics Software for Ubuntu 5.1.zip from"
-	einfo "http://www.displaylink.com/downloads/ubuntu"
-	einfo "and rename it to ${P}.zip"
-}
+#pkg_nofetch() {
+#	einfo "Please download DisplayLink USB Graphics Software for Ubuntu 5.1.zip from"
+#	einfo "http://www.displaylink.com/downloads/ubuntu"
+#	einfo "and rename it to ${P}.zip"
+#}
 
 src_unpack() {
 	default
-	sh ./"${PN}"-"${PV}".run --noexec --target "${P}"
+	sh "${WORKDIR}/${MY_P}.run" --noexec --keep
 }
 
 src_install() {
