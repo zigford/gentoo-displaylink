@@ -8,10 +8,11 @@ inherit linux-mod
 DESCRIPTION="Extensible Virtual Display Interface"
 HOMEPAGE="https://github.com/DisplayLink/evdi"
 SRC_URI="https://github.com/DisplayLink/evdi/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+RESTRICT="primaryuri"
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
-KEYWORDS="~x86 amd64"
+KEYWORDS="~x86 ~amd64"
 
 RDEPEND="x11-libs/libdrm"
 DEPEND="${RDEPEND}
@@ -19,17 +20,22 @@ DEPEND="${RDEPEND}
 
 MODULE_NAMES="evdi(video:${S}/module)"
 
-CONFIG_CHECK="~FB_VIRTUAL ~!INTEL_IOMMU"
+CONFIG_CHECK="~FB_VIRTUAL"
 
 pkg_setup() {
 	linux-mod_pkg_setup
+}
+
+src_prepare() {
+	#eapply "${FILESDIR}/kernel-5.4.patch"
+	default
 }
 
 src_compile() {
 	linux-mod_src_compile
 	cd "${S}/library"
 	default
-	mv libevdi.so libevdi.so.0
+	mv libevdi.so.${PV} libevdi.so.0
 }
 
 src_install() {
